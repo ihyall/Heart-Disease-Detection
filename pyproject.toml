@@ -1,0 +1,16 @@
+[tool.ruff]
+indent-width = 4
+line-length = 88
+output-format = "grouped"
+show-fixes = true
+
+[tool.ruff.analyze]
+direction = "dependencies"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 60
+indent-style = "space"
+quote-style = "double"
+line-ending = "cr-lf"
+skip-magic-trailing-comma = true
