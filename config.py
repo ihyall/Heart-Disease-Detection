@@ -1,0 +1,2 @@
+VisualizationPath = "visualizations/"
+DataPath = "data/"
