@@ -1,3 +1,7 @@
+[project]
+dynamic = ["version"]
+name = "HeartDiseaseDetection"
+
 [tool.ruff]
 indent-width = 4
 line-length = 88
@@ -14,3 +18,9 @@ indent-style = "space"
 quote-style = "double"
 line-ending = "cr-lf"
 skip-magic-trailing-comma = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "src/tests/*.py",
+]
+pythonpath = "."
