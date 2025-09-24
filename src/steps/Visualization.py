@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from DataOperations import GetNumericalColumns, GetOutliersIndexes
+from src.steps.DataOperations import GetNumericalColumns, GetOutliersIndexes
+
+# from .DataOperations import GetNumericalColumns, GetOutliersIndexes
 from matplotlib.figure import Figure
 
 

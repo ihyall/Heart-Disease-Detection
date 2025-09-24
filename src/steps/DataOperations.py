@@ -1,6 +1,14 @@
 import numpy as np
 import pandas as pd
 
+from config import DataPath
+
+RootPath: str = ""
+
+
+def LoadData(fileName: str) -> pd.DataFrame:
+    return pd.read_csv(RootPath + DataPath + fileName)
+
 
 def GetNumericalColumns(df: pd.DataFrame) -> list[str]:
     # columns = df.select_dtypes(include=["int64", "float64"]).columns.to_list()
@@ -8,11 +16,11 @@ def GetNumericalColumns(df: pd.DataFrame) -> list[str]:
     #     if pd.unique(df[col]).shape[0] < 10:
     #         columns.remove(col)
     # return columns
-    return df.select_dtypes(include=["int64", "float64"]).columns.to_list()
+    return df.select_dtypes(include=["number"]).columns.to_list()
 
 
 def GetCategoricalColumns(df: pd.DataFrame) -> list[str]:
-    return df.select_dtypes(include=["object", "category"]).columns.to_list()
+    return df.select_dtypes(include=["object", "category", "bool"]).columns.to_list()
 
 
 def GetNMissing(df: pd.DataFrame) -> str:
@@ -54,6 +62,10 @@ def RemoveRowsWithOutliers(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.path.append("../../")
+    RootPath = "../../"
     # df = pd.DataFrame({"a": [np.nan, 1, np.nan], "b": [1, np.nan, 3]})
     df = pd.DataFrame(
         {"a": [-1000, 1, 2, 1, 100, 100], "b": [-200, 1, 100, 3, 200, 300]}
