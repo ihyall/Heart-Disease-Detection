@@ -3,6 +3,8 @@ import io
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from config import DatasetTargetName
+
 
 def GetDFIndo(df: pd.DataFrame) -> str:
     buf = io.StringIO()
@@ -15,12 +17,12 @@ def DescribeDF(df: pd.DataFrame) -> str:
 
 
 def SplitIntoTrainAndTestSamples(
-    df: pd.DataFrame, targetName: str, randomState: int | None = None
+    df: pd.DataFrame, testSize: int = 0.2, randomState: int | None = None
 ) -> list[pd.DataFrame | pd.Series]:
     return train_test_split(
-        df.drop(columns=[targetName]),
-        df[targetName],
-        test_size=0.2,
+        df.drop(columns=[DatasetTargetName]),
+        df[DatasetTargetName],
+        test_size=testSize,
         random_state=randomState,
     )
 

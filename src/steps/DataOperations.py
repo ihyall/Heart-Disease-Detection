@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from config import DataPath
@@ -24,6 +23,11 @@ def GetCategoricalColumns(df: pd.DataFrame) -> list[str]:
 
 
 def GetNMissing(df: pd.DataFrame) -> str:
+    """
+    Returns a string of a DataFrame with null value counters
+
+    If there are none, returns `"No missing values"`
+    """
     missing = df.isnull().sum()
     result = missing[missing > 0]
     if result.size > 0:
@@ -31,9 +35,14 @@ def GetNMissing(df: pd.DataFrame) -> str:
     return "No missing values"
 
 
-def GetOutliersIndexes(
+def GetOutliersIndices(
     df: pd.DataFrame, columns: list[str], k: float = 1.5
 ) -> dict[str, list[int]]:
+    """
+    Returns a dictionary, where:
+    - keys represent passed DataFrame columns
+    - values are the indices of rows with missing values in corresponding column
+    """
     subDF: pd.DataFrame = df.loc[:, columns]
     Q1 = subDF.quantile(0.25)
     Q3 = subDF.quantile(0.75)
@@ -46,19 +55,19 @@ def GetOutliersIndexes(
 
     result = dict()
     for column in subDF:
-        outlierIndexes = subDF[column].index[outliersMask[column]].to_list()
-        if len(outlierIndexes) > 0:
-            result[column] = outlierIndexes
+        outlierIndices = subDF[column].index[outliersMask[column]].to_list()
+        if len(outlierIndices) > 0:
+            result[column] = outlierIndices
     return result
 
 
 def RemoveRowsWithOutliers(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
-    indexesDict: dict[str, list[int]] = GetOutliersIndexes(df, GetNumericalColumns(df))
-    indexes = set()
-    for indexList in indexesDict.values():
-        indexes.update(indexList)
+    indicesDict: dict[str, list[int]] = GetOutliersIndices(df, GetNumericalColumns(df))
+    indices = set()
+    for indexList in indicesDict.values():
+        indices.update(indexList)
 
-    return df.drop(index=list(indexes)).reset_index(drop=True)
+    return df.drop(index=list(indices)).reset_index(drop=True)
 
 
 if __name__ == "__main__":
@@ -70,5 +79,5 @@ if __name__ == "__main__":
     df = pd.DataFrame(
         {"a": [-1000, 1, 2, 1, 100, 100], "b": [-200, 1, 100, 3, 200, 300]}
     )
-    print(GetOutliersIndexes(df, GetNumericalColumns(df)))
+    print(GetOutliersIndices(df, GetNumericalColumns(df)))
     print(RemoveRowsWithOutliers(df, GetNumericalColumns(df)))

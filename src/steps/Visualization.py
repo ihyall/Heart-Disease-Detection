@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from src.steps.DataOperations import GetNumericalColumns, GetOutliersIndexes
-
-# from .DataOperations import GetNumericalColumns, GetOutliersIndexes
 from matplotlib.figure import Figure
 
+from config import DatasetTargetName, VisualizationsPath
+from src.steps.DataOperations import GetNumericalColumns
 
-def plotKde(df: pd.DataFrame, columns: list[str], nCols: int = 2) -> Figure:
+
+def PlotKDE(df: pd.DataFrame, nCols: int = 2, **kwargs) -> Figure:
+    columns = GetNumericalColumns(df)
     nPlots = len(columns)
     nRows = (nPlots // nCols) + (nPlots % nCols)
 
@@ -23,7 +24,7 @@ def plotKde(df: pd.DataFrame, columns: list[str], nCols: int = 2) -> Figure:
     return fig
 
 
-def plotMissing(df: pd.DataFrame) -> Figure:
+def PlotMissing(df: pd.DataFrame, **kwargs) -> Figure:
     fig = plt.figure(figsize=(df.shape[1] // 2.5, df.shape[1] // 2.5))
     sns.heatmap(df.isnull(), cbar=False, cmap="viridis")
     plt.title("Пропуски в наборе данных")
@@ -31,19 +32,15 @@ def plotMissing(df: pd.DataFrame) -> Figure:
     return fig
 
 
-def plotOutliers(df: pd.DataFrame, columns: list[str], nCols: int = 2) -> Figure:
+def PlotOutliers(df: pd.DataFrame, nCols: int = 2, **kwargs) -> Figure:
+    columns = GetNumericalColumns(df)
     nPlots = len(columns)
     nRows = (nPlots // nCols) + (nPlots % nCols)
 
-    # indexes = GetOutliersIndexes(df, columns, 1.5)
-
     fig = plt.figure(figsize=(5 * nCols, 3 * (nPlots // nCols)))
     for i, col in enumerate(columns):
-        # if col in indexes:
         plt.subplot(nRows, nCols, i + 1)
-        # sns.kdeplot(data=df, x=col, fill=True)
-        # plt.boxplot(x=df[col], vert=False)
-        sns.boxplot(data=df, x=col, hue="HeartDiseaseorAttack")
+        sns.boxplot(data=df, x=col, hue=DatasetTargetName)
         plt.title(f"Выбросы {col}")
         plt.xlabel("")
 
@@ -51,24 +48,33 @@ def plotOutliers(df: pd.DataFrame, columns: list[str], nCols: int = 2) -> Figure
     return fig
 
 
-def plotTargetBalance(df: pd.DataFrame, targetName: str) -> Figure:
+def PlotTargetBalance(df: pd.DataFrame, **kwargs) -> Figure:
     fig = plt.figure(figsize=(8, 6))
-    sns.countplot(data=df, x=targetName)
-    plt.title(f"Сбалансированность {targetName}")
+    sns.countplot(data=df, x=DatasetTargetName)
+    plt.title(f"Сбалансированность {DatasetTargetName}")
     return fig
+
+
+defaultVisualizations = [PlotKDE, PlotMissing, PlotOutliers, PlotTargetBalance]
+
+
+def MakeDefaultVisualizations(df: pd.DataFrame, **kwargs):
+    for visFunc in defaultVisualizations:
+        visFunc(df, **kwargs)
+        plt.savefig(VisualizationsPath + visFunc.__name__.removeprefix("Plot"))
 
 
 if __name__ == "__main__":
     import sys
 
     sys.path.append("../../")
-    from config import VisualizationPath
+    from config import VisualizationsPath
 
     df = pd.read_csv("../../data/heart_disease_health_indicators_BRFSS2015.csv").sample(
         100000
     )
     # plotKde(df, GetNumericalColumns(df))
-    plotOutliers(df, GetNumericalColumns(df))
-    # plotTargetBalance(df, "HeartDiseaseorAttack")
-    plt.savefig("../../" + VisualizationPath + "test.png")
+    # plotOutliers(df, GetNumericalColumns(df))
+    # plotTargetBalance(df, DatasetTargetName)
+    plt.savefig("../../" + VisualizationsPath + "test.png")
     plt.show()
