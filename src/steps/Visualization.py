@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
 
-from config import DatasetTargetName, VisualizationsPath
+from config import DatasetTargetName  # , VisualizationsPath
 from src.steps.DataOperations import GetNumericalColumns
 
 
@@ -58,23 +58,7 @@ def PlotTargetBalance(df: pd.DataFrame, **kwargs) -> Figure:
 defaultVisualizations = [PlotKDE, PlotMissing, PlotOutliers, PlotTargetBalance]
 
 
-def MakeDefaultVisualizations(df: pd.DataFrame, **kwargs):
-    for visFunc in defaultVisualizations:
-        visFunc(df, **kwargs)
-        plt.savefig(VisualizationsPath + visFunc.__name__.removeprefix("Plot"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    sys.path.append("../../")
-    from config import VisualizationsPath
-
-    df = pd.read_csv("../../data/heart_disease_health_indicators_BRFSS2015.csv").sample(
-        100000
-    )
-    # plotKde(df, GetNumericalColumns(df))
-    # plotOutliers(df, GetNumericalColumns(df))
-    # plotTargetBalance(df, DatasetTargetName)
-    plt.savefig("../../" + VisualizationsPath + "test.png")
-    plt.show()
+# def MakeDefaultVisualizations(df: pd.DataFrame, **kwargs):
+#     for visFunc in defaultVisualizations:
+#         visFunc(df, **kwargs)
+#         plt.savefig(VisualizationsPath + visFunc.__name__.removeprefix("Plot"))

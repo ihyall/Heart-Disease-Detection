@@ -68,16 +68,3 @@ def RemoveRowsWithOutliers(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame
         indices.update(indexList)
 
     return df.drop(index=list(indices)).reset_index(drop=True)
-
-
-if __name__ == "__main__":
-    import sys
-
-    sys.path.append("../../")
-    RootPath = "../../"
-    # df = pd.DataFrame({"a": [np.nan, 1, np.nan], "b": [1, np.nan, 3]})
-    df = pd.DataFrame(
-        {"a": [-1000, 1, 2, 1, 100, 100], "b": [-200, 1, 100, 3, 200, 300]}
-    )
-    print(GetOutliersIndices(df, GetNumericalColumns(df)))
-    print(RemoveRowsWithOutliers(df, GetNumericalColumns(df)))

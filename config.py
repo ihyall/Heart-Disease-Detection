@@ -1,5 +1,5 @@
 # Main folder paths
-VisualizationsPath = "visualizations/"
+# VisualizationsPath = "visualizations/"
 DataPath = "data/"
 
 # MLFlow experiment name

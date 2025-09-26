@@ -57,11 +57,10 @@ def test_SplitIntoTrainAndTestSamples():
             "a": [1, 2, 3],
             "b": [1.6, 0.9, -6.7],
             "c": ["asdfasdf", "asudjyfasdk", "123123"],
-            "d": [True, True, False],
+            "HeartDiseaseorAttack": [True, True, False],
         }
     )
-    target = "d"
-    samples = pre.SplitIntoTrainAndTestSamples(df, target, randomState=0)
+    samples = pre.SplitIntoTrainAndTestSamples(df, randomState=0)
     print(*samples, sep="\n")
     validation: list[pd.DataFrame | pd.Series] = [
         pd.DataFrame(

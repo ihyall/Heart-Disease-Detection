@@ -29,8 +29,3 @@ def SplitIntoTrainAndTestSamples(
 
 def DropDuplicates(df: pd.DataFrame) -> pd.DataFrame:
     return df.drop_duplicates(ignore_index=True)
-
-
-if __name__ == "__main__":
-    df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
-    print(DescribeDF(df))
