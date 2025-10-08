@@ -25,9 +25,27 @@ def MakeDefaultModelRun(
     y_train: pd.Series,
     X_test: pd.DataFrame,
     y_test: pd.Series,
-    **modelKwargs,
 ):
     mlflow.sklearn.autolog()
     with mlflow.start_run(parent_run_id=parentRunID, nested=True):
-        model = TrainModel(model=model, X_train=X_train, y_train=y_train, **modelKwargs)
+        model = TrainModel(model=model, X_train=X_train, y_train=y_train)
         EvaluateModel(model=model, X_test=X_test, y_test=y_test)
+
+
+def RunMultipleModelCycles(
+    parentRunID: str,
+    models: list[BaseEstimator],
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+    X_test: pd.DataFrame,
+    y_test: pd.Series,
+):
+    for model in models:
+        MakeDefaultModelRun(
+            parentRunID=parentRunID,
+            model=model,
+            X_train=X_train,
+            y_train=y_train,
+            X_test=X_test,
+            y_test=y_test,
+        )

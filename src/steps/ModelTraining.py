@@ -14,9 +14,8 @@ from src.steps.MLFlowLogging import LogMetrics
 def TrainModel(
     model: BaseEstimator, X_train: pd.DataFrame, y_train: pd.Series, **kwargs
 ) -> BaseEstimator:
-    instance = model(**kwargs)
-    instance.fit(X_train, y_train)
-    return instance
+    model.fit(X_train, y_train)
+    return model
 
 
 def EvaluateModel(model: BaseEstimator, X_test: pd.DataFrame, y_test: pd.Series):

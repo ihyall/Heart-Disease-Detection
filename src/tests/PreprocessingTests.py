@@ -99,6 +99,8 @@ def test_DropDuplicates():
     )
     assert pre.DropDuplicates(df1).equals(df)
 
+# TODO make tests for new preprocessing steps
+
 
 if __name__ == "__main__":
     test_GetDFInfo()

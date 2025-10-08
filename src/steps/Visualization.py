@@ -53,12 +53,3 @@ def PlotTargetBalance(df: pd.DataFrame, **kwargs) -> Figure:
     sns.countplot(data=df, x=DatasetTargetName)
     plt.title(f"Сбалансированность {DatasetTargetName}")
     return fig
-
-
-defaultVisualizations = [PlotKDE, PlotMissing, PlotOutliers, PlotTargetBalance]
-
-
-# def MakeDefaultVisualizations(df: pd.DataFrame, **kwargs):
-#     for visFunc in defaultVisualizations:
-#         visFunc(df, **kwargs)
-#         plt.savefig(VisualizationsPath + visFunc.__name__.removeprefix("Plot"))
