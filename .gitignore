@@ -208,3 +208,4 @@ __marimo__/
 mlartifacts/
 mlruns/
 visualizations/
+catboost_info/
