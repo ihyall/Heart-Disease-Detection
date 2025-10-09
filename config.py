@@ -62,12 +62,23 @@ EvaluationMetrics = [
 
 
 from src.steps.Visualization import (  # noqa: E402
+    PlotFeatureCorrelation,
     PlotKDE,
     PlotMissing,
     PlotOutliers,
     PlotTargetBalance,
-    PlotFeatureCorrelation
 )
 
-DefaultVisualizations = [PlotKDE, PlotMissing, PlotOutliers, PlotTargetBalance, PlotFeatureCorrelation]
-PostProcessingVisualizations = [PlotKDE, PlotOutliers, PlotTargetBalance, PlotFeatureCorrelation]
+DefaultVisualizations = [
+    PlotKDE,
+    PlotMissing,
+    PlotOutliers,
+    PlotTargetBalance,
+    PlotFeatureCorrelation,
+]
+PostProcessingVisualizations = [
+    PlotKDE,
+    PlotOutliers,
+    PlotTargetBalance,
+    PlotFeatureCorrelation,
+]

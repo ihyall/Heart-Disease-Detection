@@ -1,9 +1,9 @@
 import io
 
 import pandas as pd
+from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import SMOTE
 
 from config import DatasetTargetName
 
@@ -33,8 +33,7 @@ def SeparateTargetFromOthers(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]
 
 
 def MergeTargetWithOthers(X: pd.DataFrame, y: pd.Series) -> pd.DataFrame:
-    X[DatasetTargetName] = y
-    return X
+    return X.copy().assign(**{DatasetTargetName: y})
 
 
 def ScaleNumericalValues(X: pd.DataFrame, columns: list[str]) -> pd.DataFrame:

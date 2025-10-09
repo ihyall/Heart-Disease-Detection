@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.figure import Figure
 
-from config import DatasetTargetName  # , VisualizationsPath
+from config import DatasetTargetName
 from src.steps.DataOperations import GetNumericalColumns
 
 
@@ -52,4 +52,21 @@ def PlotTargetBalance(df: pd.DataFrame, **kwargs) -> Figure:
     fig = plt.figure(figsize=(8, 6))
     sns.countplot(data=df, x=DatasetTargetName)
     plt.title(f"Сбалансированность {DatasetTargetName}")
+    return fig
+
+
+def PlotFeatureImportances(feature_importances) -> Figure:
+    fig = plt.figure(figsize=(8, 6))
+    sns.barplot(x=feature_importances.values, y=feature_importances.index)
+    plt.title("Feature Importances")
+    plt.ylabel("")
+    plt.xlabel("Importance")
+    plt.tight_layout()
+    return fig
+
+
+def PlotFeatureCorrelation(df: pd.DataFrame, **kwargs) -> Figure:
+    fig = plt.figure(figsize=(12, 8))
+    sns.heatmap(df.corr(), annot=False, cmap="coolwarm", center=0)
+    plt.title("Тепловая карта корреляций")
     return fig
