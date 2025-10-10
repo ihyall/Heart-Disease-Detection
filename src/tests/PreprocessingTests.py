@@ -52,15 +52,15 @@ b    3.0  -1.4  4.60326 -6.7 -2.9  0.9  1.25  1.6"
 
 
 def test_SplitIntoTrainAndTestSamples():
-    df = pd.DataFrame(
+    X = pd.DataFrame(
         {
             "a": [1, 2, 3],
             "b": [1.6, 0.9, -6.7],
             "c": ["asdfasdf", "asudjyfasdk", "123123"],
-            "HeartDiseaseorAttack": [True, True, False],
         }
     )
-    samples = pre.SplitIntoTrainAndTestSamples(df, randomState=0)
+    y = pd.Series([True, True, False])
+    samples = pre.SplitIntoTrainAndTestSamples(X, y, randomState=0)
     print(*samples, sep="\n")
     validation: list[pd.DataFrame | pd.Series] = [
         pd.DataFrame(
@@ -99,11 +99,55 @@ def test_DropDuplicates():
     )
     assert pre.DropDuplicates(df1).equals(df)
 
+
 # TODO make tests for new preprocessing steps
+def test_SeparateTargetFromOthers():
+    df = pd.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": [1.6, 0.9, -6.7],
+            "c": ["asdfasdf", "asudjyfasdk", "123123"],
+            "HeartDiseaseorAttack": [True, True, False],
+        }
+    )
+    df, target = pre.SeparateTargetFromOthers(df)
+    assert df.equals(
+        pd.DataFrame(
+            {
+                "a": [1, 2, 3],
+                "b": [1.6, 0.9, -6.7],
+                "c": ["asdfasdf", "asudjyfasdk", "123123"],
+            }
+        )
+    )
+    assert target.equals(pd.Series([True, True, False]))
 
 
-if __name__ == "__main__":
-    test_GetDFInfo()
-    test_DescribeDF()
-    test_SplitIntoTrainAndTestSamples()
-    test_DropDuplicates()
+def test_MergeTargetWithOthers():
+    assert pre.MergeTargetWithOthers(
+        pd.DataFrame(
+            {
+                "a": [1, 2, 3],
+                "b": [1.6, 0.9, -6.7],
+                "c": ["asdfasdf", "asudjyfasdk", "123123"],
+            }
+        ),
+        pd.Series([True, True, False]),
+    ).equals(
+        pd.DataFrame(
+            {
+                "a": [1, 2, 3],
+                "b": [1.6, 0.9, -6.7],
+                "c": ["asdfasdf", "asudjyfasdk", "123123"],
+                "HeartDiseaseorAttack": [True, True, False],
+            }
+        )
+    )
+
+
+def test_ScaleNumericalValues():  # TODO
+    pass
+
+
+def test_FixTargetImbalance():  # TODO
+    pass

@@ -1,11 +1,11 @@
 import pandas as pd
 
-from config import DataPath
-
 RootPath: str = ""
 
 
 def LoadData(fileName: str) -> pd.DataFrame:
+    from config import DataPath
+
     return pd.read_csv(RootPath + DataPath + fileName)
 
 
