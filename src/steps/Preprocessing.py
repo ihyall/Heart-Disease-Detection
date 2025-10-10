@@ -44,6 +44,8 @@ def ScaleNumericalValues(X: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     return X
 
 
-def FixTargetImbalance(X: pd.DataFrame, y: pd.Series, randomState: int | None = None) -> pd.DataFrame:
+def FixTargetImbalance(
+    X: pd.DataFrame, y: pd.Series, randomState: int | None = None
+) -> pd.DataFrame:
     smote = SMOTE(random_state=randomState)
     return smote.fit_resample(X, y)

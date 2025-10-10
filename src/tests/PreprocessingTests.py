@@ -1,7 +1,7 @@
 import sys
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 sys.path.append("../")
 
@@ -101,7 +101,6 @@ def test_DropDuplicates():
     assert pre.DropDuplicates(df1).equals(df)
 
 
-# TODO make tests for new preprocessing steps
 def test_SeparateTargetFromOthers():
     df = pd.DataFrame(
         {
@@ -146,7 +145,7 @@ def test_MergeTargetWithOthers():
     )
 
 
-def test_ScaleNumericalValues():  # TODO
+def test_ScaleNumericalValues():
     a = [1, 2, 3]
     b = [1.6, 0.9, -6.7]
     assert pre.ScaleNumericalValues(
@@ -169,7 +168,7 @@ def test_ScaleNumericalValues():  # TODO
     )
 
 
-def test_FixTargetImbalance():  # TODO
+def test_FixTargetImbalance():
     a = [
         0.000000,
         0.142857,
@@ -338,16 +337,6 @@ def test_FixTargetImbalance():  # TODO
         0,
         0,
     ]
-    # assert False, print(
-    #     list(
-    #         map(
-    #             lambda x: float(x),
-    #             pre.FixTargetImbalance(
-    #                 pd.DataFrame({"a": a, "b": b}), pd.Series(c), randomState=0
-    #             )
-    #         )
-    #     )
-    # )
     X, y = pre.FixTargetImbalance(
         pd.DataFrame({"a": a, "b": b}), pd.Series(c), randomState=0
     )
