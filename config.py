@@ -69,7 +69,7 @@ from src.steps.Visualization import (  # noqa: E402
     PlotTargetBalance,
 )
 
-DefaultVisualizations = [
+RawVisualizations = [
     PlotKDE,
     PlotMissing,
     PlotOutliers,

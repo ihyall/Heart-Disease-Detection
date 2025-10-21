@@ -4,7 +4,7 @@ from config import (
     DatasetFilename,
     DatasetName,
     DatasetSourceURL,
-    DefaultVisualizations,
+    RawVisualizations,
     ExperimentName,
     Models,
     PostProcessingVisualizations,
@@ -32,7 +32,7 @@ with mlflow.start_run() as run:
     dataset = MakeDataset(df=df, name=DatasetName, source=DatasetSourceURL)
 
     mlflow.log_input(dataset=dataset, context="Raw")
-    LogFigures(DefaultVisualizations, "preprocessing", df=dataset.df, nCols=2)
+    LogFigures(RawVisualizations, "preprocessing", df=dataset.df, nCols=2)
 
     X, y = FixTargetImbalance(*SeparateTargetFromOthers(dataset.df))
 
